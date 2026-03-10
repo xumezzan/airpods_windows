@@ -26,6 +26,8 @@ namespace AirPodsCompanion.Models
         public int CaseBattery { get; set; } = 15;
         public bool InEar { get; set; } = false;
         public bool IsCharging { get; set; } = false;
+        public bool LidOpen { get; set; } = false;
+        public short RSSI { get; set; } = -100;
         public DateTime LastSeen { get; set; } = DateTime.MinValue;
 
         public void UpdateBattery(int left, int right, int c)

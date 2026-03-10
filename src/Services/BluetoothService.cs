@@ -70,8 +70,9 @@ namespace AirPodsCompanion.Services
                             caseBat = 15;
                         }
 
-                        // Determine in-ear state
+                        // Determine in-ear state and lid state
                         bool inEar = ((data[11] & 0x08) != 0) || ((data[11] & 0x02) != 0);
+                        bool lidOpen = (data[11] & 0x01) != 0; // Check if lid is open
                         bool isCharging = (data[13] & 0x10) != 0;
 
                         var airpodsData = new AirPodsData
@@ -82,7 +83,9 @@ namespace AirPodsCompanion.Services
                             RightBattery = rightBat,
                             CaseBattery = caseBat,
                             InEar = inEar,
+                            LidOpen = lidOpen,
                             IsCharging = isCharging,
+                            RSSI = args.RawSignalStrengthInDBm,
                             LastSeen = DateTime.Now
                         };
 

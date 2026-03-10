@@ -48,10 +48,11 @@ namespace AirPodsCompanion.Views
                 _lastInEar = data.InEar;
 
                 // Fire Popup if enabled
-                if (PopupToggle.IsOn && !PopupWindow.IsOpen)
+                if (PopupToggle.IsOn && !PopupWindow.IsOpen && data.RSSI > -60 && data.LidOpen)
                 {
-                    // For MVP: In reality, we must ensure popup isn't duplicated.
-                    // This is placeholder for showing the popup window logic.
+                    var popup = new PopupWindow();
+                    popup.UpdateData(name, data.GetBatteryString());
+                    popup.Activate();
                 }
             });
         }
