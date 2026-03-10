@@ -1,0 +1,21 @@
+# Build folders
+[Bb]in/
+[Oo]bj/
+[Pp]ublish-app/
+[Pp]ublish/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Executables & Debug files
+*.exe
+*.dll
+*.pdb
+*.appx
+*.msix
+*.msixbundle
+*.appxupload

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AirPodsCompanion (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AirPodsCompanion (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+﻿<Window x:Class="MagicPodsClone.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MagicPods Clone" 
+        Height="150" Width="300"
+        WindowStyle="None" 
+        AllowsTransparency="True" 
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        WindowStartupLocation="Manual"
+        Loaded="Window_Loaded">
+    <Window.Resources>
+        <Storyboard x:Key="EntranceAnimation">
+            <DoubleAnimation Storyboard.TargetName="MainBorder" 
+                             Storyboard.TargetProperty="Opacity" 
+                             From="0" To="1" Duration="0:0:0.3"/>
+            <DoubleAnimation Storyboard.TargetName="MainTranslate" 
+                             Storyboard.TargetProperty="Y" 
+                             From="20" To="0" Duration="0:0:0.4">
+                <DoubleAnimation.EasingFunction>
+                    <ExponentialEase EasingMode="EaseOut" Exponent="5"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+    <Grid>
+        <Border x:Name="MainBorder" Background="#EE1C1C1E" CornerRadius="20" Padding="15" Margin="10"
+                Opacity="0">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="MainTranslate" Y="20"/>
+            </Border.RenderTransform>
+            <!-- A subtle drop shadow for depth -->
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="15" Direction="270" ShadowDepth="5" Opacity="0.5"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="AirPods Pro" Foreground="White" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                
+                <Grid Grid.Row="1" HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="70"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Left AirPod -->
+                    <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                        <TextBlock Text="L" Foreground="Gray" FontSize="20" HorizontalAlignment="Center" Margin="0,5"/>
+                        <TextBlock x:Name="LeftBatText" Text="--%" Foreground="LightGreen" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <!-- Case -->
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                        <TextBlock Text="🔋" Foreground="Gray" FontSize="20" HorizontalAlignment="Center" Margin="0,5"/>
+                        <TextBlock x:Name="CaseBatText" Text="--%" Foreground="LightGreen" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    </StackPanel>
+                    
+                    <!-- Right AirPod -->
+                    <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                        <TextBlock Text="R" Foreground="Gray" FontSize="20" HorizontalAlignment="Center" Margin="0,5"/>
+                        <TextBlock x:Name="RightBatText" Text="--%" Foreground="LightGreen" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

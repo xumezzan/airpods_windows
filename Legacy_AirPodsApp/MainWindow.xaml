@@ -1,0 +1,217 @@
+<Window x:Class="AirPodsApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MagicPods Manager" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="#0F111A"
+        FontFamily="Segoe UI Variable Text, Segoe UI">
+    
+    <Window.Resources>
+        <!-- Dark Card Style -->
+        <Style x:Key="MagicCard" TargetType="Border">
+            <Setter Property="Background" Value="#1A1E2E"/>
+            <Setter Property="CornerRadius" Value="12"/>
+            <Setter Property="Padding" Value="16"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <!-- Sidebar Item Style -->
+        <Style x:Key="SidebarItem" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="12,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="8" Margin="0,2">
+                            <ContentPresenter x:Name="Cp"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#1AFFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="#2AFFFFFF"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Device Card Template -->
+        <DataTemplate x:Key="DeviceCardTemplate">
+            <Border Style="{StaticResource MagicCard}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0" Width="48" Height="48" Margin="0,0,16,0">
+                        <Ellipse Fill="#2A3042"/>
+                        <TextBlock Text="{Binding EmojiIcon}" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold" Foreground="White"/>
+                        <TextBlock Text="{Binding Status}" FontSize="12" Foreground="#8A8A8E" Margin="0,2,0,0"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="2" Content="{Binding ButtonText}" Padding="20,8" VerticalAlignment="Center"
+                            Background="#E8622E" Foreground="White" FontWeight="SemiBold" Click="Button_Click">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="6"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SIDEBAR -->
+        <Border Background="#0B0D14" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="AirPods Manager" Foreground="White" FontSize="20" FontWeight="Bold" Margin="0,10,0,30"/>
+
+                <ListBox x:Name="SidebarList" Grid.Row="1" Background="Transparent" BorderThickness="0" 
+                         ItemContainerStyle="{StaticResource SidebarItem}" SelectionChanged="SidebarList_SelectionChanged">
+                    <ListBoxItem Tag="Headphones" IsSelected="True">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="🎧" Margin="0,0,12,0"/><TextBlock Text="Наушники" Foreground="White"/></StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Tag="Settings">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="⚙️" Margin="0,0,12,0"/><TextBlock Text="Настройки" Foreground="White"/></StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Tag="Hotkeys">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="⌨️" Margin="0,0,12,0"/><TextBlock Text="Горячие клавиши" Foreground="White"/></StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Tag="Preferences">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="🎛️" Margin="0,0,12,0"/><TextBlock Text="Предпочтения" Foreground="White"/></StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Tag="Support">
+                        <StackPanel Orientation="Horizontal"><TextBlock Text="💬" Margin="0,0,12,0"/><TextBlock Text="Поддержка" Foreground="White"/></StackPanel>
+                    </ListBoxItem>
+                </ListBox>
+
+                <Button x:Name="ExitButton" Grid.Row="2" Background="Transparent" BorderThickness="0" 
+                        HorizontalContentAlignment="Left" Click="Exit_Click" Cursor="Hand">
+                    <StackPanel Orientation="Horizontal" Margin="12,10">
+                        <TextBlock Text="🚪" Margin="0,0,12,0" Foreground="White"/>
+                        <TextBlock Text="Выход" Foreground="White"/>
+                    </StackPanel>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="8">
+                                <ContentPresenter/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Bd" Property="Background" Value="#1AFFFFFF"/></Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+        </Border>
+
+        <!-- MAIN CONTENT -->
+        <Grid Grid.Column="1" Margin="32">
+            <!-- PAGE: HEADPHONES -->
+            <Grid x:Name="HeadphonesPage">
+                <StackPanel>
+                    <TextBlock Text="Подключенные устройства" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,24"/>
+                    <TextBlock x:Name="EmptyStateText" Text="🎧 Поиск устройств поблизости..." Foreground="#555555" FontSize="16" HorizontalAlignment="Center" Margin="0,60,0,0"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="DeviceList" ItemTemplate="{StaticResource DeviceCardTemplate}"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+
+            <Grid x:Name="SettingsPage" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="Основные настройки" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
+                    <Border Style="{StaticResource MagicCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="👂" FontSize="24" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="Обнаружение уха" Foreground="White" FontWeight="SemiBold"/>
+                                <TextBlock Text="Авто-пауза при снятии" Foreground="#8A8A8E" FontSize="12"/>
+                            </StackPanel>
+                            <CheckBox Grid.Column="2" IsChecked="True" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- Other pages placeholders -->
+            <!-- PAGE: HOTKEYS -->
+            <Grid x:Name="HotkeysPage" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="Горячие клавиши" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
+                    <Border Style="{StaticResource MagicCard}">
+                        <StackPanel>
+                            <TextBlock Text="Ctrl + Shift + A : Подключить" Foreground="White" Margin="0,5"/>
+                            <TextBlock Text="Ctrl + Shift + D : Отключить" Foreground="White" Margin="0,5"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- PAGE: PREFERENCES -->
+            <Grid x:Name="PreferencesPage" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="Предпочтения" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
+                    <Border Style="{StaticResource MagicCard}">
+                        <StackPanel>
+                            <CheckBox Content="Запуск с Windows" Foreground="White" Margin="0,5"/>
+                            <CheckBox Content="Скрыть иконку в трее" Foreground="White" Margin="0,5"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+
+            <!-- PAGE: SUPPORT -->
+            <Grid x:Name="SupportPage" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock Text="Поддержка" FontSize="24" FontWeight="Bold" Foreground="White" Margin="0,0,0,20"/>
+                    <Border Style="{StaticResource MagicCard}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="AirPods Manager v1.0.0" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Text="Разработано для Windows 11" Foreground="#8A8A8E" Margin="0,5,0,20"/>
+                            <Button Content="Официальный сайт" Padding="20,8"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
